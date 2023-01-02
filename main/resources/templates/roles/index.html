@@ -5,25 +5,32 @@
         layout:decorator="layout">
 
 <th:block layout:fragment="content">
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Role name</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="role: ${list}">
-            <td th:text="${role.id}">1</td>
-            <td th:text="${role.name}">ADM</td>
-            <td>
-                <form th:action="@{/roles/{id}(id = ${role.id})" th:method="delete">
-                    <button class="btn btn-danger">Delete</button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="col-xs-12 col-md-12">
+        <a href="/roles/new" class="btn btn-success">Create</a>
+    </div>
+    <div class="col-xs-12 col-md-12">
+        <h5 class="mt-4 mb-4">Listing roles</h5>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Role name</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="role : ${list}">
+                <td th:text="${role.id}"></td>
+                <td th:text="${role.name}"></td>
+                <td>
+                    <form th:action="@{/roles/{id}(id = ${role.id})}" th:method="delete">
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </th:block>
+</html>
 </html>
