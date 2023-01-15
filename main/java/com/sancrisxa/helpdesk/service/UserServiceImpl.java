@@ -75,13 +75,17 @@ public class UserServiceImpl implements UserService{
 
             return true;
         }
-
         return false;
     }
 
     @Override
     public Optional<User> show(Long id) {
         return findById(id);
+    }
+
+    @Override
+    public List<User> findAllWhereRoleEquals(Long role_id) {
+        return this.repository.findAllWhereRoleEquals(role_id);
     }
 
     private Optional<User> findById(Long id) {

@@ -40,6 +40,11 @@ public class RolesServiceImpl implements RolesService {
         return false;
     }
 
+    @Override
+    public Role findByName(String name) {
+        return this.repository.findByName(name);
+    }
+
     private Optional<Role> findById(Long id) {
         return this.repository.findById(id);
     }
