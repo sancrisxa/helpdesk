@@ -1,4 +1,4 @@
-package com.sancrisxa.helpdesk.service;
+package com.sancrisxa.helpdesk.services;
 
 import com.sancrisxa.helpdesk.models.Role;
 import com.sancrisxa.helpdesk.repositories.RolesRepository;
@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class RolesServiceImpl implements RolesService {
+public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private RolesRepository repository;
 
-    public RolesServiceImpl(RolesRepository repository) {
+    public RoleServiceImpl(RolesRepository repository) {
         this.repository = repository;
     }
 

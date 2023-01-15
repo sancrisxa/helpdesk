@@ -2,8 +2,8 @@ package com.sancrisxa.helpdesk.controllers;
 
 import com.sancrisxa.helpdesk.models.Role;
 import com.sancrisxa.helpdesk.models.User;
-import com.sancrisxa.helpdesk.service.RolesService;
-import com.sancrisxa.helpdesk.service.UserService;
+import com.sancrisxa.helpdesk.services.RoleService;
+import com.sancrisxa.helpdesk.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,9 +27,9 @@ public class UserController {
     @Autowired
     private UserService userService;
     @Autowired
-    private RolesService rolesService;
+    private RoleService rolesService;
 
-    public UserController(UserService userService, RolesService rolesService) {
+    public UserController(UserService userService, RoleService rolesService) {
         this.userService = userService;
         this.rolesService = rolesService;
     }

@@ -1,7 +1,7 @@
 package com.sancrisxa.helpdesk.controllers;
 
 import com.sancrisxa.helpdesk.models.Role;
-import com.sancrisxa.helpdesk.service.RolesService;
+import com.sancrisxa.helpdesk.services.RoleService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class RoleController {
 
     @Autowired
-    private RolesService rolesService;
+    private RoleService rolesService;
 
-    public RoleController(RolesService rolesService) {
+    public RoleController(RoleService rolesService) {
         this.rolesService = rolesService;
     }
 
