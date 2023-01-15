@@ -1,6 +1,8 @@
 package com.sancrisxa.helpdesk.controllers;
 
+import com.sancrisxa.helpdesk.models.Role;
 import com.sancrisxa.helpdesk.models.User;
+import com.sancrisxa.helpdesk.service.RolesService;
 import com.sancrisxa.helpdesk.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/users")
@@ -20,9 +26,12 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private RolesService rolesService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, RolesService rolesService) {
         this.userService = userService;
+        this.rolesService = rolesService;
     }
 
     @GetMapping
@@ -39,9 +48,25 @@ public class UserController {
         return "users/create";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Long id, Model model) {
+        Optional<User> user = this.userService.show(id);
+        List<Role> roles = this.rolesService.findAll();
+        model.addAttribute("user", user);
+        model.addAttribute("roles", roles);
         return "users/edit";
+    }
+
+    @PutMapping("{id}")
+    public String update(@PathVariable Long id, @Valid @ModelAttribute("user") User user, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            return "users/edit";
+        }
+
+        this.userService.update(id, user);
+
+        return "redirect/users";
     }
 
     @PostMapping
@@ -56,7 +81,7 @@ public class UserController {
     }
 
     @DeleteMapping("{id}")
-    public String delete(@PathVariable("id") Long id) {
+    public String delete(@PathVariable("id") Long id, Model model) {
         this.userService.delete(id);
 
         return "redirect:/users";

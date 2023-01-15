@@ -1,10 +1,14 @@
 package com.sancrisxa.helpdesk.service;
 
+import com.sancrisxa.helpdesk.models.Role;
 import com.sancrisxa.helpdesk.models.User;
+import com.sancrisxa.helpdesk.repositories.RolesRepository;
 import com.sancrisxa.helpdesk.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,9 +17,16 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserRepository repository;
+    @Autowired
+    private RolesRepository rolesRepository;
 
-    public UserServiceImpl(UserRepository repository) {
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public UserServiceImpl(UserRepository repository, RolesRepository rolesRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.repository = repository;
+        this.rolesRepository = rolesRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @Override
@@ -25,6 +36,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User create(User user) {
+
+        user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
+        Role userRole = this.rolesRepository.findByName("USER");
+        user.setRoles(new HashSet<>(Arrays.asList(userRole)));
         return this.repository.save(user);
     }
 
@@ -40,10 +55,37 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public Boolean update(Long id, User user) {
-        return null;
+        Optional<User> userExists = findById(id);
+
+        if (userExists != null) {
+
+            userExists.get().setEmail(user.getEmail());
+            userExists.get().setName(user.getName());
+            userExists.get().setLastName(user.getLastName());
+            userExists.get().setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
+            userExists.get().setActive(user.getActive());
+
+            User userUpdated = userExists.get();
+
+            Role userRole = this.rolesRepository
+                    .findByName(user.getRoles().iterator().next().getName());
+            userExists.get().setRoles(new HashSet<>(Arrays.asList(userRole)));
+
+            this.repository.save(userUpdated);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public Optional<User> show(Long id) {
+        return findById(id);
     }
 
     private Optional<User> findById(Long id) {
+
         return this.repository.findById(id);
     }
 }
