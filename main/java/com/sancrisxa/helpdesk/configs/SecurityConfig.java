@@ -15,7 +15,7 @@
 //
 //@Configuration
 //@EnableWebSecurity
-//@EnableGlobalMethodSecurity(prePostEnabled = true)inde
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 //public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //
 //    @Autowired

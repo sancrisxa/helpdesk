@@ -11,4 +11,5 @@ public interface UserService {
     public Boolean update(Long id, User user);
     public Optional<User> show(Long id);
     public List<User> findAllWhereRoleEquals(Long role_id, Long user_id);
+    public User findCurrentUser();
 }

@@ -1,4 +1,4 @@
-package com.schoolofnet.Helpdesk.services;
+package com.sancrisxa.helpdesk.services;
 
 import java.util.Date;
 import java.util.List;
@@ -8,9 +8,6 @@ import com.sancrisxa.helpdesk.models.Ticket;
 import com.sancrisxa.helpdesk.models.User;
 import com.sancrisxa.helpdesk.repositories.TicketRepository;
 import com.sancrisxa.helpdesk.repositories.UserRepository;
-import com.sancrisxa.helpdesk.services.RoleService;
-import com.sancrisxa.helpdesk.services.TicketService;
-import com.sancrisxa.helpdesk.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -122,6 +119,7 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public List<Ticket> reportTicketByDays(Integer day) {
+
         return this.ticketRepository.findAllTicketsByDay(day);
     }
 
